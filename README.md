@@ -15,5 +15,13 @@ mkdir vectorstores
 mkdir vectorstores/db
 # Add files to the data folder
 python load_data.py
-chainlit run chatPDF.py
+chainlit run multiChat.py
+
+## For single instant chat
+chainlit run InstantChat.py
+# supports only pdf
 ```
+
+## Screenshots
+
+## Detailed usage guide

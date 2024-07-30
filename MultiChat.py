@@ -2,10 +2,10 @@ import os
 
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain_community.llms import Ollama
+from langchain_community.llms.ollama import Ollama
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain.chains import RetrievalQA
+from langchain.chains.retrieval_qa.base import RetrievalQA
 from langchain.prompts import PromptTemplate
 import chainlit as cl
 
@@ -39,7 +39,7 @@ def set_custom_prompt():
 def load_llm():
     """Load the Language Model."""
     llm = Ollama(
-        model="llama3",
+        model="llama3.1",
         verbose=True,
         callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
     )
@@ -78,7 +78,7 @@ def create_retrieval_qa_bot():
     Returns:
         RetrievalQA: The retrieval-based question-answering bot.
     """
-    vectorstore = Chroma(persist_directory=os.getenv('DB_PATH'), embedding_function=OllamaEmbeddings())
+    vectorstore = Chroma(persist_directory=os.getenv('DB_PATH'), embedding_function=OllamaEmbeddings(model="nomic-embed-text", show_progress=True))
 
     try:
         llm = load_llm()
