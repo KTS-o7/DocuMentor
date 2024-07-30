@@ -18,13 +18,13 @@ def create_vector_db():
     print(f"Processed {len(documents)} pdf files")
 
     # Split the documents into chunks
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=50)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
     texts = text_splitter.split_documents(documents)
 
     # Create a vector store from the document chunks
     vectorStore = Chroma.from_documents(
         documents=texts,
-        embedding=OllamaEmbeddings(),
+        embedding=OllamaEmbeddings(model="nomic-embed-text",show_progress=True),
         persist_directory=os.getenv('DB_PATH')
     )
 
